@@ -17,7 +17,7 @@ func creat_warned(ui:PackedScene,label:String):
 	tui.text=label
 	get_tree().get_root().add_child(tui)
 		
-func _on_load_pressed() -> void:
+func _on_load_pressed() -> void:      #用户信息加载
 	if $user_name.text==""||$user_password.text=="":
 		var tui=warned.instantiate()
 		tui.position=Vector2(342,342)
