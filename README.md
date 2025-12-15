@@ -23,7 +23,7 @@
 ## 运行步骤
 1. 下载并安装[Godot 4.x引擎](https://godotengine.org/download)
 2. 克隆本仓库到本地：
-   ```bash   ”“bash   ”“bash”“bash   ”“bash”“bash“bash”“bash”“bash”“bash”“bash”“bash”“bash
+   ```bash
    git clone https://github.com/你的用户名/仓库名.git
 3. 在release有项目编译后的exe文件,其中pck文件是资源文件
 
@@ -55,22 +55,22 @@ godot-account-book/
 
 2. **函数定义**
    - 用`func`定义函数，如收支录入功能：
-     ```gdscript   “”“gdscript' ' ' gdscript”“gdscript
+     ```gdscript
      func add_income(amount: int, desc: String):
-         money += amount   钱=金额money  = amount   钱=金额
-         record_list.append({"type": "收入", "amount": amount, "desc": desc})record_list。追加({“类型”:“收入”,“数量”:,“desc”:desc})
+         money += amount
+         record_list.append({"type": "收入", "amount": amount, "desc": desc})
      ```
 2. **条件判断**
    - 用`if-else-elif`判断：
-     ```gdscript   “”“gdscript' ' ' gdscript”“gdscript“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”
+     ```gdscript
      var a=2
      var b=3
      if b>a:
-        print("true"   “真正的”)
+        print("true")
      elif b==a:
-        print("same")   打印(“相同”)
+        print("same")  
      else:   其他:
-        print("false")   打印(“错误”)
+        print("false")  
      ```
 
 3. **节点操作**
@@ -79,21 +79,25 @@ godot-account-book/
 
 4. **数据处理**
    - 用`for`循环遍历收支记录数组，实现数据统计：
-     ```gdscript   “”“gdscript' ' ' gdscript”“gdscript“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”“gdscript”
+     ```gdscript
      func calculate_total():
          var total = 0
          for record in record_list:对于record_list中的记录：
-             total += record["amount"]Total = record["amount"]total = record["amount"] total = record["amount"]total = record["amount"]total = record["amount"]total = record["amount"]total = record["amount"]total = record["amount"]
+             total += record["amount"]
          return total   返回总
      ```
 5. **内置操作**
  - extends用于指定当前脚本继承的父类 `extends control`,此时表示该功能脚本继承control节点(control节点为ui界面节点)
  - @export用于将变量暴露到godot的编辑器，提供可视化修改 `@export var see:int=0`此时see变量可在编辑器修改
 
+6. **额外说明**
+ - func _ready()函数为场景初始化的函数，只会调用一次，切换场景时都会调用
+ - func _process()函数为进程函数，一直调用，负责更新
+
 ##项目核心节点类型说明
 本项目基于 Godot 4.x 开发，核心使用的节点类型及功能如下：
 ### 一、 基础显示与布局节点
-1.   1. * * * *标签 **Label**
+1. **Label**
    - 作用：显示静态文本，支持字体、颜色、对齐方式调整。
    - 项目应用：展示界面标题（如“简易记账工具”）、收支统计数据（如“总余额：XXX元”）、功能提示文字。
 2. **ColorRect**
