@@ -1,30 +1,30 @@
 extends Control
 @export var come_back:PackedScene
-@export var text:PackedScene
+@export var text:PackedScene     #PackedScene类型是场景类型,负责tscn文件这里用于文字场景的调用
 var erp=["收入","支出"]
 var choose:int=-1
 
 func _ready() -> void:
-	var tui=come_back.instantiate()
-	tui.position=Vector2(140,3)
-	get_tree().get_root().add_child(tui)
-	var datap=load("user://user_data.res")
+	var tui=come_back.instantiate()          #instantiate()函数为实例化函数，此时为根节点实例
+	tui.position=Vector2(140,3)				 #position为位置,vector2表示二维平面向量
+	get_tree().get_root().add_child(tui)	 #表示将实例化场景加入场景树,才能可视化
+	var datap=load("user://user_data.res")   #load为加载函数,加载"user://user_data.res"这个为存储文件,负责用户信息存储
 	if datap==null||!datap.dict.has(Statemanger.user_name): return
-	$cmp.add_item("")
-	for i in datap.inway[Statemanger.user_name]:
+	$cmp.add_item("")                        #加入空类型
+	for i in datap.inway[Statemanger.user_name]:     #依次加入收入类型
 		$income/income_categoity.add_item(i)
 		$cmp.add_item(i)
-	for i in datap.outway[Statemanger.user_name]:
+	for i in datap.outway[Statemanger.user_name]:    #依次支出收入类型
 		$outcome/income_categoity.add_item(i)
 		$cmp.add_item(i)
-	var count=datap.dict[Statemanger.user_name].size()
+	var count=datap.dict[Statemanger.user_name].size()     #以下将显示所有收入支出记录
 	var re=datap.dict[Statemanger.user_name]
 	for i in range(count):
 		var y=4-re[i][1].length()
 		var x=6-re[i][3].length()-re[i][4].length()-re[i][5].length()
 		$ItemList.add_item(re[i][0]+"       "+re[i][1]+"    ".repeat(y)+"    "+re[i][2]+"年"+re[i][3]
 		+"月"+re[i][4]+"日"+re[i][5]+":"+re[i][6]+"  ".repeat(x)+"       "+re[i][7]+"元"+"          "+re[i][8])	
-	pass
+	pass 
 
 
 func _process(delta: float) -> void:
@@ -39,7 +39,7 @@ func _on_save_pressed() -> void:
 		get_tree().get_root().add_child(tui)
 		return
 	var datap=load("user://user_data.res")
-	var payway=erp[$TabBar.current_tab]
+	var payway=erp[$TabBar.current_tab]      #判断当前是收入函数支出,从而取得拿到哪一个节点的具体信息
 	if $TabBar.current_tab==0: tree=$income
 	else: tree=$outcome
 	var year=tree.get_child(4).text
@@ -57,7 +57,7 @@ func _on_save_pressed() -> void:
 		tui.text="还有未填的元素"
 		get_tree().get_root().add_child(tui)
 		return
-	var isrunyear:int=(int(year)%4==0&&int(year)%100!=0)||int(year)%400==0
+	var isrunyear:int=(int(year)%4==0&&int(year)%100!=0)||int(year)%400==0   #判断是平年还是闰年
 	var dictgh=[31,28+isrunyear,31,30,31,30,31,31,30,31,30,31]
 	if int(month)>12||int(month)<=0||int(day)<=0||int(day)>dictgh[int(month)-1]||int(hour)<0||int(hour)>23||int(minith)<0||int(minith)>=60:
 		var tui=text.instantiate()
@@ -65,30 +65,30 @@ func _on_save_pressed() -> void:
 		tui.text="没有这个时间"
 		get_tree().get_root().add_child(tui)
 		return
-	list.append(beizhu)
+	list.append(beizhu)   #加入元素
 	var map=[1,-1]
 	var yourchoose=[datap.inway[Statemanger.user_name],datap.outway[Statemanger.user_name]]
-	datap.dict[Statemanger.user_name].append(list)
-	var nemon=int(money)*map[$TabBar.current_tab]
-	datap.newmoney[Statemanger.user_name]+=nemon
-	var dest=yourchoose[$TabBar.current_tab][list[1]]
+	datap.dict[Statemanger.user_name].append(list)    #对该用户的记录进行新增
+	var nemon=int(money)*map[$TabBar.current_tab]     
+	datap.newmoney[Statemanger.user_name]+=nemon      #总收入增减
+	var dest=yourchoose[$TabBar.current_tab][list[1]]     #以下对类型的单独控制钱的增减和次数的增加
 	dest[0]+=nemon
 	dest[1]+=1
-	if dest[2]==1:
+	if dest[2]==1:             #预算管理
 		datap.current_budget[Statemanger.user_name]+=nemon
 		Statemanger.current_bud+=nemon
 	var y=4-list[1].length()
 	var x=6-list[3].length()-list[4].length()-list[5].length()
-	$ItemList.add_item(list[0]+"       "+list[1]+"    ".repeat(y)+"    "+list[2]+"年"+list[3]+"月"+list[4]
+	$ItemList.add_item(list[0]+"       "+list[1]+"    ".repeat(y)+"    "+list[2]+"年"+list[3]+"月"+list[4]   #记录新增
 	+"日"+list[5]+":"+list[6]+"  ".repeat(x)+"       "+list[7]+"元"+"          "+list[8])
-	ResourceSaver.save(datap,"user://user_data.res")
+	ResourceSaver.save(datap,"user://user_data.res")    #保存文件
 	pass 
 	
 func _on_item_list_item_selected(index: int) -> void:
-	choose=index
+	choose=index             #记录当前选择的记录
 	pass 
 
-func _on_button_pressed() -> void:
+func _on_button_pressed() -> void:   #记录删除
 	if choose==-1: return
 	var map={"收入":-1,"支出":1}
 	$ItemList.remove_item(choose)
@@ -105,7 +105,7 @@ func _on_button_pressed() -> void:
 	choose=-1
 	pass
 
-func _on_button_2_pressed() -> void:
+func _on_button_2_pressed() -> void:  #记录筛选
 	if $cmp.selected<0&&($left.text==""||$right.text==""):
 		var text1=load("res://tscn/text.tscn")
 		var tui=text1.instantiate()
