@@ -6,9 +6,3 @@ extends Node               #全局脚本,在不同场景可以通过远程链接
 @export var isadmin:bool           #是否为管理员
 var sprite=preload("res://image/Almanac_IndexButton.png")      #预加载图片
 var sprite1=preload("res://image/Almanac_IndexButtonHighlight.png")
-
-func _ready() -> void:
-	pass
-
-func _process(delta: float) -> void:
-	pass
