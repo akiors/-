@@ -1,4 +1,4 @@
-extends Control   扩展控制
+extends Control  
 @export var creat_user:PackedScene
 @export var load_user:PackedScene
 @export var menu_text:PackedScene
@@ -6,7 +6,7 @@ extends Control   扩展控制
 @export var manager:PackedScene
 @export var budget:PackedScene
 
-func _ready() -> void:   函数_ready() -> void：
+func _ready() -> void: 
 	$user_name/data.text="未登录"
 	pass    通过
 
@@ -14,7 +14,7 @@ func creat_warned(ui:PackedScene,names:String):
 	var tui=ui.instantiate()   tui = ui.instantiate (var)
 	tui.position=Vector2(0,565)
 	tui.text=names
-	get_tree().get_root().add_child(tui)tui .add_child .get_root get_tree () () ()
+	get_tree().get_root().add_child(tui)
 
 func _process(delta: float) -> void:     #ui更新
 	if Statemanger.isload:
